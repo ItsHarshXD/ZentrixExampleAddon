@@ -6,7 +6,7 @@ A comprehensive example addon demonstrating the Zentrix Developer API usage. Thi
 
 This example addon showcases:
 - Extending `ZentrixAddon` for automatic lifecycle management
-- Accessing all API services (Game, Player, Team, Class, Currency, Profile, Phase)
+- Accessing the API via `ZentrixAPI.get()`
 - Listening to all Zentrix events
 - Creating commands that interact with the API
 - Best practices for addon development
@@ -14,7 +14,7 @@ This example addon showcases:
 ## Requirements
 
 - **Java 21** or higher
-- **Paper 1.21.4** or compatible server
+- **Paper 1.21.9-.1.21.10** or compatible server
 - **Zentrix** plugin installed and enabled
 
 ## Installation
@@ -38,15 +38,18 @@ The `ExampleAddon` class extends `ZentrixAddon`, which provides:
 - Automatic API availability checks
 - Version compatibility verification
 - Automatic addon registration/unregistration
-- Convenient `getAPI()` method access
 
 ```java
 public class ExampleAddon extends ZentrixAddon {
     
     @Override
     protected void onAddonEnable() {
-        // Called after API is verified available
-        ZentrixAPI api = getAPI();
+        // Access the API
+        ZentrixAPI api = ZentrixAPI.get();
+        
+        // Use services
+        api.getGameService().getActiveGames();
+        
         // Your initialization code here
     }
     
@@ -161,6 +164,8 @@ The `/apitest` command provides comprehensive testing of all API features:
 
 ### GameService
 ```java
+// Access the API
+ZentrixAPI api = ZentrixAPI.get();
 GameService gameService = api.getGameService();
 
 // Get all active games
@@ -178,7 +183,7 @@ Collection<String> arenas = gameService.getAvailableArenas();
 
 ### PlayerService
 ```java
-PlayerService playerService = api.getPlayerService();
+PlayerService playerService = ZentrixAPI.get().getPlayerService();
 
 // Get player in game
 Optional<ZentrixPlayer> zPlayer = playerService.getPlayer(player);
@@ -195,7 +200,7 @@ boolean inGame = playerService.isInGame(player);
 
 ### TeamService
 ```java
-TeamService teamService = api.getTeamService();
+TeamService teamService = ZentrixAPI.get().getTeamService();
 
 // Get player's team
 Optional<ZentrixTeam> team = teamService.getPlayerTeam(player);
@@ -212,7 +217,7 @@ Collection<ZentrixTeam> aliveTeams = teamService.getAliveTeams(game);
 
 ### ClassService
 ```java
-ClassService classService = api.getClassService();
+ClassService classService = ZentrixAPI.get().getClassService();
 
 // Get all classes
 Collection<PlayerClass> classes = classService.getClasses();
@@ -229,7 +234,7 @@ int count = classService.getClassCount();
 
 ### CurrencyService
 ```java
-CurrencyService currencyService = api.getCurrencyService();
+CurrencyService currencyService = ZentrixAPI.get().getCurrencyService();
 
 // Get player balance (async)
 currencyService.getBalance(uuid).thenAccept(balance -> {
@@ -249,7 +254,7 @@ String formatted = currencyService.formatBalance(100.0);
 
 ### PhaseService
 ```java
-PhaseService phaseService = api.getPhaseService();
+PhaseService phaseService = ZentrixAPI.get().getPhaseService();
 
 // Get all phases
 Collection<GamePhase> phases = phaseService.getPhases();
@@ -266,7 +271,7 @@ int count = phaseService.getPhaseCount();
 
 ### ProfileService
 ```java
-ProfileService profileService = api.getProfileService();
+ProfileService profileService = ZentrixAPI.get().getProfileService();
 
 // Get player stats (async)
 profileService.getStats(uuid).thenAccept(stats -> {
@@ -279,7 +284,7 @@ profileService.getStats(uuid).thenAccept(stats -> {
 
 ### AddonManager
 ```java
-AddonManager addonManager = api.getAddonManager();
+AddonManager addonManager = ZentrixAPI.get().getAddonManager();
 
 // Get registered addons
 Collection<AddonInfo> addons = addonManager.getRegisteredAddons();
@@ -381,9 +386,9 @@ The JAR will be in `example-addon/build/libs/`.
 
 ## Best Practices Demonstrated
 
-1. **Lifecycle Management**: Use `ZentrixAddon` base class for automatic lifecycle handling
-2. **API Availability**: Always check API availability before use
-3. **Version Compatibility**: Specify required API version
+1. **API Access**: Use `ZentrixAPI.get()` to access the API from anywhere
+2. **Lifecycle Management**: Use `ZentrixAddon` base class for automatic lifecycle handling
+3. **Version Compatibility**: Specify required API version via `getRequiredAPIVersion()`
 4. **Event Priority**: Use `MONITOR` for logging, `HIGH`/`NORMAL` for modifications
 5. **Async Operations**: Use `CompletableFuture` properly for async API calls
 6. **Null Safety**: Use `Optional` returns properly with `ifPresent`/`orElse`
@@ -408,7 +413,7 @@ The JAR will be in `example-addon/build/libs/`.
 ## Support
 
 For issues with this example addon or the Zentrix Developer API:
-- GitHub: https://github.com/ItsHarshXD/Zentrix
+- GitHub: https://github.com/ItsHarshXD/ZentrixAPI
 
 ## License
 

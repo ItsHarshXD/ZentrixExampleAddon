@@ -22,7 +22,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.9-R0.1-SNAPSHOT")
 
     // Zentrix API - reference the parent project's API module
-    compileOnly("com.github.ItsHarshXD:ZentrixAPI:0.0.3")
+    compileOnly("com.github.ItsHarshXD:ZentrixAPI:0.0.4")
 }
 
 tasks.withType<JavaCompile> {

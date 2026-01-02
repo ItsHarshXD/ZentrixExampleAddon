@@ -1,24 +1,24 @@
 package dev.itsharshxd.addon.zentrix.example.commands;
 
-import dev.itsharshxd.zentrix.api.ZentrixAPI;
-import dev.itsharshxd.zentrix.api.addon.AddonManager;
-import dev.itsharshxd.zentrix.api.classes.ClassService;
-import dev.itsharshxd.zentrix.api.classes.PlayerClass;
-import dev.itsharshxd.zentrix.api.currency.CurrencyEventType;
-import dev.itsharshxd.zentrix.api.currency.CurrencyService;
-import dev.itsharshxd.zentrix.api.data.DataService;
-import dev.itsharshxd.zentrix.api.game.GameService;
-import dev.itsharshxd.zentrix.api.game.ZentrixGame;
-import dev.itsharshxd.zentrix.api.phase.GamePhase;
-import dev.itsharshxd.zentrix.api.phase.PhaseService;
-import dev.itsharshxd.zentrix.api.player.PlayerService;
-import dev.itsharshxd.zentrix.api.player.ZentrixPlayer;
-import dev.itsharshxd.zentrix.api.profile.ProfileService;
-import dev.itsharshxd.zentrix.api.recipe.RecipeBuilder;
-import dev.itsharshxd.zentrix.api.recipe.RecipeService;
-import dev.itsharshxd.zentrix.api.recipe.ZentrixRecipe;
-import dev.itsharshxd.zentrix.api.team.TeamService;
-import dev.itsharshxd.zentrix.api.team.ZentrixTeam;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().ZentrixAPI;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().addon.AddonManager;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().classes.ClassService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().classes.PlayerClass;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().currency.CurrencyEventType;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().currency.CurrencyService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().data.DataService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().game.GameService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().game.ZentrixGame;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().phase.GamePhase;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().phase.PhaseService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().player.PlayerService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().player.ZentrixPlayer;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().profile.ProfileService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().recipe.RecipeBuilder;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().recipe.RecipeService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().recipe.ZentrixRecipe;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().team.TeamService;
+import dev.itsharshxd.zentrix.ZentrixAPI.get().team.ZentrixTeam;
 import dev.itsharshxd.addon.zentrix.example.ExampleAddon;
 import java.io.File;
 import java.util.*;
@@ -58,7 +58,6 @@ import org.jetbrains.annotations.Nullable;
 public class APITestCommand implements CommandExecutor, TabCompleter {
 
     private final ExampleAddon addon;
-    private final ZentrixAPI api;
 
     // Subcommands
     private static final List<String> SUBCOMMANDS = Arrays.asList(
@@ -157,7 +156,6 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
 
     public APITestCommand(ExampleAddon addon) {
         this.addon = addon;
-        this.api = addon.getZentrixAPI();
     }
 
     @Override
@@ -275,7 +273,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testGameService(CommandSender sender, String[] args) {
-        GameService gameService = api.getGameService();
+        GameService gameService = ZentrixAPI.get().getGameService();
         String subCmd = args.length > 0 ? args[0].toLowerCase() : "list";
 
         sender.sendMessage("§6§l=== GameService Test ===");
@@ -424,7 +422,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testPlayerService(CommandSender sender, String[] args) {
-        PlayerService playerService = api.getPlayerService();
+        PlayerService playerService = ZentrixAPI.get().getPlayerService();
         String subCmd = args.length > 0 ? args[0].toLowerCase() : "info";
 
         sender.sendMessage("§6§l=== PlayerService Test ===");
@@ -500,13 +498,13 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                 }
                 Player p = (Player) sender;
                 sender.sendMessage(
-                    "§7In Game: §e" + api.getGameService().isInGame(p)
+                    "§7In Game: §e" + ZentrixAPI.get().getGameService().isInGame(p)
                 );
                 sender.sendMessage(
-                    "§7Playing: §e" + api.getGameService().isPlaying(p)
+                    "§7Playing: §e" + ZentrixAPI.get().getGameService().isPlaying(p)
                 );
                 sender.sendMessage(
-                    "§7Spectating: §e" + api.getGameService().isSpectating(p)
+                    "§7Spectating: §e" + ZentrixAPI.get().getGameService().isSpectating(p)
                 );
                 break;
             case "alive":
@@ -575,7 +573,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testTeamService(CommandSender sender, String[] args) {
-        TeamService teamService = api.getTeamService();
+        TeamService teamService = ZentrixAPI.get().getTeamService();
         String subCmd = args.length > 0 ? args[0].toLowerCase() : "myteam";
 
         sender.sendMessage("§6§l=== TeamService Test ===");
@@ -753,7 +751,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testClassService(CommandSender sender, String[] args) {
-        ClassService classService = api.getClassService();
+        ClassService classService = ZentrixAPI.get().getClassService();
         String subCmd = args.length > 0 ? args[0].toLowerCase() : "list";
 
         sender.sendMessage("§6§l=== ClassService Test ===");
@@ -864,7 +862,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testCurrencyService(CommandSender sender, String[] args) {
-        CurrencyService currencyService = api.getCurrencyService();
+        CurrencyService currencyService = ZentrixAPI.get().getCurrencyService();
         String subCmd = args.length > 0 ? args[0].toLowerCase() : "info";
 
         sender.sendMessage("§6§l=== CurrencyService Test ===");
@@ -958,7 +956,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testPhaseService(CommandSender sender, String[] args) {
-        PhaseService phaseService = api.getPhaseService();
+        PhaseService phaseService = ZentrixAPI.get().getPhaseService();
         String subCmd = args.length > 0 ? args[0].toLowerCase() : "list";
 
         sender.sendMessage("§6§l=== PhaseService Test ===");
@@ -1200,7 +1198,8 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testProfileService(CommandSender sender, String[] args) {
-        ProfileService profileService = api.getProfileService();
+        @SuppressWarnings("unused")
+        ProfileService profileService = ZentrixAPI.get().getProfileService();
 
         sender.sendMessage("§6§l=== ProfileService Test ===");
 
@@ -1238,7 +1237,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testDataService(CommandSender sender, String[] args) {
-        DataService dataService = api.getDataService();
+        DataService dataService = ZentrixAPI.get().getDataService();
 
         if (args.length == 0) {
             sender.sendMessage("§6§l=== DataService Test ===");
@@ -1456,7 +1455,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testRecipeService(CommandSender sender, String[] args) {
-        RecipeService recipeService = api.getRecipeService();
+        RecipeService recipeService = ZentrixAPI.get().getRecipeService();
 
         if (args.length == 0) {
             sender.sendMessage("§6§l=== RecipeService Test ===");
@@ -1684,7 +1683,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
     // ==========================================
 
     private void testAddonManager(CommandSender sender, String[] args) {
-        AddonManager addonManager = api.getAddonManager();
+        AddonManager addonManager = ZentrixAPI.get().getAddonManager();
 
         sender.sendMessage("§6§l=== AddonManager Test ===");
         sender.sendMessage(
@@ -1821,7 +1820,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     subSubCmd.equals("remaining")
                 ) {
                     return filterCompletions(
-                        new ArrayList<>(api.getRecipeService().getRecipeIds()),
+                        new ArrayList<>(ZentrixAPI.get().getRecipeService().getRecipeIds()),
                         args[2]
                     );
                 }
@@ -1835,7 +1834,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
             // Arena completions for games byarena
             if (subCmd.equals("games") && subSubCmd.equals("byarena")) {
                 return filterCompletions(
-                    new ArrayList<>(api.getGameService().getAvailableArenas()),
+                    new ArrayList<>(ZentrixAPI.get().getGameService().getAvailableArenas()),
                     args[2]
                 );
             }
@@ -1858,7 +1857,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                 List<String> indices = new ArrayList<>();
                 for (
                     int i = 0;
-                    i < api.getPhaseService().getPhaseCount();
+                    i < ZentrixAPI.get().getPhaseService().getPhaseCount();
                     i++
                 ) {
                     indices.add(String.valueOf(i));

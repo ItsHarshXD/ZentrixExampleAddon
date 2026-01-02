@@ -2,14 +2,6 @@ package dev.itsharshxd.addon.zentrix.example;
 
 import dev.itsharshxd.zentrix.api.ZentrixAPI;
 import dev.itsharshxd.zentrix.api.addon.ZentrixAddon;
-import dev.itsharshxd.zentrix.api.classes.ClassService;
-import dev.itsharshxd.zentrix.api.currency.CurrencyService;
-import dev.itsharshxd.zentrix.api.data.DataService;
-import dev.itsharshxd.zentrix.api.game.GameService;
-import dev.itsharshxd.zentrix.api.phase.PhaseService;
-import dev.itsharshxd.zentrix.api.player.PlayerService;
-import dev.itsharshxd.zentrix.api.profile.ProfileService;
-import dev.itsharshxd.zentrix.api.team.TeamService;
 import dev.itsharshxd.addon.zentrix.example.commands.APITestCommand;
 import dev.itsharshxd.addon.zentrix.example.listeners.CurrencyEventListener;
 import dev.itsharshxd.addon.zentrix.example.listeners.GameEventListener;
@@ -25,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
  * This addon shows how to:
  * <ul>
  *   <li>Extend ZentrixAddon for automatic lifecycle management</li>
- *   <li>Access all API services (Game, Player, Team, Class, Currency, Profile, Phase)</li>
+ *   <li>Access the API via {@link ZentrixAPI#get()}</li>
  *   <li>Listen to all Zentrix events</li>
  *   <li>Create commands that interact with the API</li>
  * </ul>
@@ -52,7 +44,7 @@ public class ExampleAddon extends ZentrixAddon {
         instance = this;
 
         // Log API information
-        ZentrixAPI api = getAPI();
+        ZentrixAPI api = ZentrixAPI.get();
         getLogger().info("===========================================");
         getLogger().info("  Zentrix Example Addon - API Test Suite");
         getLogger().info("===========================================");
@@ -140,7 +132,7 @@ public class ExampleAddon extends ZentrixAddon {
      * Logs the status of all available services.
      */
     private void logServiceStatus() {
-        ZentrixAPI api = getAPI();
+        ZentrixAPI api = ZentrixAPI.get();
 
         getLogger().info("--- Service Status ---");
 
@@ -265,7 +257,7 @@ public class ExampleAddon extends ZentrixAddon {
      * Demonstrates DataService usage for addon configuration.
      */
     private void demonstrateDataService() {
-        DataService dataService = getAPI().getDataService();
+        var dataService = ZentrixAPI.get().getDataService();
 
         getLogger().info("--- DataService Demo ---");
 
@@ -326,82 +318,5 @@ public class ExampleAddon extends ZentrixAddon {
      */
     public static ExampleAddon getInstance() {
         return instance;
-    }
-
-    /**
-     * Gets the GameService from the API.
-     */
-    public GameService getGameService() {
-        return getAPI().getGameService();
-    }
-
-    /**
-     * Gets the PlayerService from the API.
-     */
-    public PlayerService getPlayerService() {
-        return getAPI().getPlayerService();
-    }
-
-    /**
-     * Gets the TeamService from the API.
-     */
-    public TeamService getTeamService() {
-        return getAPI().getTeamService();
-    }
-
-    /**
-     * Gets the ClassService from the API.
-     */
-    public ClassService getClassService() {
-        return getAPI().getClassService();
-    }
-
-    /**
-     * Gets the CurrencyService from the API.
-     */
-    public CurrencyService getCurrencyService() {
-        return getAPI().getCurrencyService();
-    }
-
-    /**
-     * Gets the ProfileService from the API.
-     */
-    public ProfileService getProfileService() {
-        return getAPI().getProfileService();
-    }
-
-    /**
-     * Gets the PhaseService from the API.
-     */
-    public PhaseService getPhaseService() {
-        return getAPI().getPhaseService();
-    }
-
-    /**
-     * Gets the Zentrix API instance.
-     * <p>
-     * This is a public wrapper around the protected {@link #getAPI()} method,
-     * allowing commands and other classes to access the API.
-     * </p>
-     *
-     * @return The Zentrix API instance (never null)
-     */
-    @NotNull
-    public ZentrixAPI getZentrixAPI() {
-        return getAPI();
-    }
-
-    /**
-     * Gets the AddonManager from the API.
-     */
-    public dev.itsharshxd.zentrix.api.addon.AddonManager getAddonManager() {
-        return getAPI().getAddonManager();
-    }
-
-    /**
-     * Gets the DataService from the API.
-     */
-    public DataService getDataService() {
-        return getAPI().getDataService();
     }
 }
