@@ -1,0 +1,23 @@
+name: ZentrixExampleAddon
+version: ${version}
+main: dev.itsharshxd.zentrix.example.ExampleAddon
+api-version: "1.21"
+description: Example addon demonstrating Zentrix Developer API usage
+author: ItsHarshXD
+website: https://github.com/ItsHarshXD/Zentrix
+
+# Zentrix must be loaded before this addon
+depend:
+  - Zentrix
+
+commands:
+  apitest:
+    description: Test various Zentrix API features
+    usage: /<command> <subcommand>
+    permission: zentrix.example.test
+    aliases: [ztest, exampletest]
+
+permissions:
+  zentrix.example.test:
+    description: Allows testing Zentrix API features
+    default: op
