@@ -1,28 +1,29 @@
 package dev.itsharshxd.addon.zentrix.example.commands;
 
-import dev.itsharshxd.zentrix.ZentrixAPI.get().ZentrixAPI;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().addon.AddonManager;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().classes.ClassService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().classes.PlayerClass;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().currency.CurrencyEventType;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().currency.CurrencyService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().data.DataService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().game.GameService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().game.ZentrixGame;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().phase.GamePhase;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().phase.PhaseService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().player.PlayerService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().player.ZentrixPlayer;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().profile.ProfileService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().recipe.RecipeBuilder;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().recipe.RecipeService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().recipe.ZentrixRecipe;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().team.TeamService;
-import dev.itsharshxd.zentrix.ZentrixAPI.get().team.ZentrixTeam;
 import dev.itsharshxd.addon.zentrix.example.ExampleAddon;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import dev.itsharshxd.zentrix.api.ZentrixAPI;
+import dev.itsharshxd.zentrix.api.addon.AddonManager;
+import dev.itsharshxd.zentrix.api.classes.ClassService;
+import dev.itsharshxd.zentrix.api.classes.PlayerClass;
+import dev.itsharshxd.zentrix.api.currency.CurrencyEventType;
+import dev.itsharshxd.zentrix.api.currency.CurrencyService;
+import dev.itsharshxd.zentrix.api.data.DataService;
+import dev.itsharshxd.zentrix.api.game.GameService;
+import dev.itsharshxd.zentrix.api.game.ZentrixGame;
+import dev.itsharshxd.zentrix.api.phase.GamePhase;
+import dev.itsharshxd.zentrix.api.phase.PhaseService;
+import dev.itsharshxd.zentrix.api.player.PlayerService;
+import dev.itsharshxd.zentrix.api.player.ZentrixPlayer;
+import dev.itsharshxd.zentrix.api.profile.ProfileService;
+import dev.itsharshxd.zentrix.api.recipe.RecipeBuilder;
+import dev.itsharshxd.zentrix.api.recipe.RecipeService;
+import dev.itsharshxd.zentrix.api.recipe.ZentrixRecipe;
+import dev.itsharshxd.zentrix.api.team.TeamService;
+import dev.itsharshxd.zentrix.api.team.ZentrixTeam;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -584,7 +585,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("§cYou must be a player.");
                     return;
                 }
-                Optional<ZentrixGame> gameOpt = api
+                Optional<ZentrixGame> gameOpt = ZentrixAPI.get()
                     .getGameService()
                     .getPlayerGame((Player) sender);
                 if (gameOpt.isEmpty()) {
@@ -665,7 +666,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("§cYou must be a player.");
                     return;
                 }
-                Optional<ZentrixGame> gOpt = api
+                Optional<ZentrixGame> gOpt = ZentrixAPI.get()
                     .getGameService()
                     .getPlayerGame((Player) sender);
                 if (gOpt.isEmpty()) {
@@ -691,7 +692,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("§cYou must be a player.");
                     return;
                 }
-                Optional<ZentrixGame> g2Opt = api
+                Optional<ZentrixGame> g2Opt = ZentrixAPI.get()
                     .getGameService()
                     .getPlayerGame((Player) sender);
                 if (g2Opt.isEmpty()) {
@@ -991,7 +992,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("§cYou must be a player.");
                     return;
                 }
-                Optional<ZentrixGame> gameOpt = api
+                Optional<ZentrixGame> gameOpt = ZentrixAPI.get()
                     .getGameService()
                     .getPlayerGame((Player) sender);
                 if (gameOpt.isEmpty()) {
@@ -1047,7 +1048,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("§cYou must be a player.");
                     return;
                 }
-                Optional<ZentrixGame> g2Opt = api
+                Optional<ZentrixGame> g2Opt = ZentrixAPI.get()
                     .getGameService()
                     .getPlayerGame((Player) sender);
                 if (g2Opt.isEmpty()) {
@@ -1077,7 +1078,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     sender.sendMessage("§cYou must be a player.");
                     return;
                 }
-                Optional<ZentrixGame> g3Opt = api
+                Optional<ZentrixGame> g3Opt = ZentrixAPI.get()
                     .getGameService()
                     .getPlayerGame((Player) sender);
                 if (g3Opt.isEmpty()) {
@@ -1842,7 +1843,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
             // Class type completions
             if (subCmd.equals("class") && subSubCmd.equals("info")) {
                 return filterCompletions(
-                    api
+                        ZentrixAPI.get()
                         .getClassService()
                         .getAvailableClasses()
                         .stream()
