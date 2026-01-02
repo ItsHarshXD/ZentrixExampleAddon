@@ -1,4 +1,4 @@
-package dev.itsharshxd.zentrix.example;
+package dev.itsharshxd.addon.zentrix.example;
 
 import dev.itsharshxd.zentrix.api.ZentrixAPI;
 import dev.itsharshxd.zentrix.api.addon.ZentrixAddon;
@@ -10,11 +10,11 @@ import dev.itsharshxd.zentrix.api.phase.PhaseService;
 import dev.itsharshxd.zentrix.api.player.PlayerService;
 import dev.itsharshxd.zentrix.api.profile.ProfileService;
 import dev.itsharshxd.zentrix.api.team.TeamService;
-import dev.itsharshxd.zentrix.example.commands.APITestCommand;
-import dev.itsharshxd.zentrix.example.listeners.CurrencyEventListener;
-import dev.itsharshxd.zentrix.example.listeners.GameEventListener;
-import dev.itsharshxd.zentrix.example.listeners.PlayerEventListener;
-import dev.itsharshxd.zentrix.example.listeners.TeamEventListener;
+import dev.itsharshxd.addon.zentrix.example.commands.APITestCommand;
+import dev.itsharshxd.addon.zentrix.example.listeners.CurrencyEventListener;
+import dev.itsharshxd.addon.zentrix.example.listeners.GameEventListener;
+import dev.itsharshxd.addon.zentrix.example.listeners.PlayerEventListener;
+import dev.itsharshxd.addon.zentrix.example.listeners.TeamEventListener;
 import java.io.File;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;

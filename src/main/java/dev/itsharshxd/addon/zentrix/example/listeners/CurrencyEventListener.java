@@ -1,7 +1,7 @@
-package dev.itsharshxd.zentrix.example.listeners;
+package dev.itsharshxd.addon.zentrix.example.listeners;
 
 import dev.itsharshxd.zentrix.api.events.currency.CurrencyChangeEvent;
-import dev.itsharshxd.zentrix.example.ExampleAddon;
+import dev.itsharshxd.addon.zentrix.example.ExampleAddon;
 import java.util.Optional;
 import java.util.logging.Logger;
 import org.bukkit.entity.Player;

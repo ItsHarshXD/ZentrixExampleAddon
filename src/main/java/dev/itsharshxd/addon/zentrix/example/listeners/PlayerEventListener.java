@@ -1,4 +1,4 @@
-package dev.itsharshxd.zentrix.example.listeners;
+package dev.itsharshxd.addon.zentrix.example.listeners;
 
 import dev.itsharshxd.zentrix.api.events.player.PlayerDeathGameEvent;
 import dev.itsharshxd.zentrix.api.events.player.PlayerJoinGameEvent;
@@ -6,7 +6,7 @@ import dev.itsharshxd.zentrix.api.events.player.PlayerKillEvent;
 import dev.itsharshxd.zentrix.api.events.player.PlayerLeaveGameEvent;
 import dev.itsharshxd.zentrix.api.game.ZentrixGame;
 import dev.itsharshxd.zentrix.api.player.ZentrixPlayer;
-import dev.itsharshxd.zentrix.example.ExampleAddon;
+import dev.itsharshxd.addon.zentrix.example.ExampleAddon;
 import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

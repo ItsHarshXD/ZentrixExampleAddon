@@ -1,4 +1,4 @@
-package dev.itsharshxd.zentrix.example.commands;
+package dev.itsharshxd.addon.zentrix.example.commands;
 
 import dev.itsharshxd.zentrix.api.ZentrixAPI;
 import dev.itsharshxd.zentrix.api.addon.AddonManager;
@@ -19,7 +19,7 @@ import dev.itsharshxd.zentrix.api.recipe.RecipeService;
 import dev.itsharshxd.zentrix.api.recipe.ZentrixRecipe;
 import dev.itsharshxd.zentrix.api.team.TeamService;
 import dev.itsharshxd.zentrix.api.team.ZentrixTeam;
-import dev.itsharshxd.zentrix.example.ExampleAddon;
+import dev.itsharshxd.addon.zentrix.example.ExampleAddon;
 import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;

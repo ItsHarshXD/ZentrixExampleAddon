@@ -1,6 +1,6 @@
 name: ZentrixExampleAddon
 version: ${version}
-main: dev.itsharshxd.zentrix.example.ExampleAddon
+main: dev.itsharshxd.addon.zentrix.example.ExampleAddon
 api-version: "1.21"
 description: Example addon demonstrating Zentrix Developer API usage
 author: ItsHarshXD

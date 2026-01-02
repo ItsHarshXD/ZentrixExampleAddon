@@ -1,4 +1,4 @@
-package dev.itsharshxd.zentrix.example.listeners;
+package dev.itsharshxd.addon.zentrix.example.listeners;
 
 import dev.itsharshxd.zentrix.api.events.game.GameEndEvent;
 import dev.itsharshxd.zentrix.api.events.game.GamePhaseChangeEvent;
@@ -7,7 +7,7 @@ import dev.itsharshxd.zentrix.api.game.ZentrixGame;
 import dev.itsharshxd.zentrix.api.phase.GamePhase;
 import dev.itsharshxd.zentrix.api.player.ZentrixPlayer;
 import dev.itsharshxd.zentrix.api.team.ZentrixTeam;
-import dev.itsharshxd.zentrix.example.ExampleAddon;
+import dev.itsharshxd.addon.zentrix.example.ExampleAddon;
 import java.util.Collection;
 import java.util.logging.Logger;
 import org.bukkit.event.EventHandler;
