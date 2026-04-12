@@ -252,6 +252,7 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage("  §8list, current, next, time, info");
         sender.sendMessage("");
         sender.sendMessage("§e/apitest profile §7- Test ProfileService");
+        sender.sendMessage("  §8stats, cached, async, quick");
         sender.sendMessage("");
         sender.sendMessage("§e/apitest addon §7- Test AddonManager");
         sender.sendMessage("");
@@ -1194,15 +1195,38 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
         }
     }
 
+    // Profile subcommands
+    private static final List<String> PROFILE_SUBCOMMANDS = Arrays.asList(
+        "stats",
+        "cached",
+        "async",
+        "quick"
+    );
+
     // ==========================================
     // ProfileService Tests
     // ==========================================
 
     private void testProfileService(CommandSender sender, String[] args) {
-        @SuppressWarnings("unused")
         ProfileService profileService = ZentrixAPI.get().getProfileService();
 
-        sender.sendMessage("§6§l=== ProfileService Test ===");
+        if (args.length == 0) {
+            sender.sendMessage("§6§l=== ProfileService Test ===");
+            sender.sendMessage("§7Available subcommands:");
+            sender.sendMessage(
+                "  §e/apitest profile stats §7- Show your full stats"
+            );
+            sender.sendMessage(
+                "  §e/apitest profile cached §7- Show cached stats (sync)"
+            );
+            sender.sendMessage(
+                "  §e/apitest profile async §7- Load stats asynchronously"
+            );
+            sender.sendMessage(
+                "  §e/apitest profile quick §7- Quick stats via convenience methods"
+            );
+            return;
+        }
 
         if (!(sender instanceof Player)) {
             sender.sendMessage(
@@ -1213,24 +1237,100 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
 
         Player player = (Player) sender;
         UUID playerId = player.getUniqueId();
+        String subCmd = args[0].toLowerCase();
 
-        sender.sendMessage(
-            "§7Profile service provides access to player statistics."
-        );
-        sender.sendMessage(
-            "§7Note: Profile stats are for lifetime statistics across all games."
-        );
-        sender.sendMessage("");
-        sender.sendMessage("§7Available methods:");
-        sender.sendMessage("  §e- getPlayerStats(UUID)");
-        sender.sendMessage("  §e- getTotalKills(UUID)");
-        sender.sendMessage("  §e- getTotalDeaths(UUID)");
-        sender.sendMessage("  §e- getTotalWins(UUID)");
-        sender.sendMessage("  §e- getGamesPlayed(UUID)");
-        sender.sendMessage("  §e- getKDRatio(UUID)");
-        sender.sendMessage("  §e- getWinRate(UUID)");
-        sender.sendMessage("");
-        sender.sendMessage("§7Use the profile GUI in-game to view your stats!");
+        switch (subCmd) {
+            case "stats":
+                sender.sendMessage("§6§l=== Your Lifetime Statistics ===");
+                // Use async method and display when done
+                profileService.getStats(player).thenAccept(stats -> {
+                    if (!stats.hasPlayed()) {
+                        player.sendMessage("§7You haven't played any games yet!");
+                        return;
+                    }
+                    player.sendMessage("§7--- Core Stats ---");
+                    player.sendMessage("§7Wins: §a" + stats.getWins());
+                    player.sendMessage("§7Losses: §c" + stats.getLosses());
+                    player.sendMessage("§7Matches Played: §e" + stats.getMatchesPlayed());
+                    player.sendMessage("§7Win Rate: §6" + String.format("%.1f", stats.getWinRate()) + "%");
+                    player.sendMessage("");
+                    player.sendMessage("§7--- Combat Stats ---");
+                    player.sendMessage("§7Kills: §c" + stats.getKills());
+                    player.sendMessage("§7Deaths: §c" + stats.getDeaths());
+                    player.sendMessage("§7K/D Ratio: §e" + String.format("%.2f", stats.getKDRatio()));
+                    player.sendMessage("§7Average Kills/Game: §e" + String.format("%.1f", stats.getAverageKills()));
+                    player.sendMessage("");
+                    player.sendMessage("§7--- Damage Stats ---");
+                    player.sendMessage("§7Damage Dealt: §c" + String.format("%.1f", stats.getDamageDealt()));
+                    player.sendMessage("§7Damage Taken: §c" + String.format("%.1f", stats.getDamageTaken()));
+                    player.sendMessage("§7Damage Ratio: §e" + String.format("%.2f", stats.getDamageRatio()));
+                    player.sendMessage("");
+                    player.sendMessage("§7--- Records ---");
+                    player.sendMessage("§7Highest Kill Game: §6" + stats.getHighestKillGame());
+                    player.sendMessage("§7Highest Kill Streak: §6" + stats.getHighestKillStreak());
+                    player.sendMessage("§7Current Win Streak: §a" + stats.getCurrentWinStreak());
+                    player.sendMessage("§7Highest Win Streak: §a" + stats.getHighestWinStreak());
+                    player.sendMessage("");
+                    player.sendMessage("§7--- Survival ---");
+                    player.sendMessage("§7Total Survival Time: §e" +
+                        profileService.formatSurvivalTime(stats.getTotalSurvivalTime()));
+                    player.sendMessage("§7Longest Survival: §e" +
+                        profileService.formatSurvivalTime(stats.getLongestSurvivalTime()));
+                    player.sendMessage("§7Average Survival: §e" +
+                        profileService.formatSurvivalTime(stats.getAverageSurvivalTime()));
+                });
+                sender.sendMessage("§7Loading stats asynchronously...");
+                break;
+
+            case "cached":
+                sender.sendMessage("§6§l=== Cached Stats (Sync) ===");
+                var cachedStats = profileService.getCachedStats(player);
+                sender.sendMessage("§7Is Cached: §e" + profileService.isCached(playerId));
+                sender.sendMessage("§7Has Played: §e" + cachedStats.hasPlayed());
+                if (cachedStats.hasPlayed()) {
+                    sender.sendMessage("§7Wins: §a" + cachedStats.getWins());
+                    sender.sendMessage("§7Kills: §c" + cachedStats.getKills());
+                    sender.sendMessage("§7Deaths: §c" + cachedStats.getDeaths());
+                    sender.sendMessage("§7Matches: §e" + cachedStats.getMatchesPlayed());
+                    sender.sendMessage("§7K/D: §e" + String.format("%.2f", cachedStats.getKDRatio()));
+                    sender.sendMessage("§7Win Rate: §6" + String.format("%.1f", cachedStats.getWinRate()) + "%");
+                } else {
+                    sender.sendMessage("§7No cached stats available. Use §e/apitest profile async §7to load.");
+                }
+                break;
+
+            case "async":
+                sender.sendMessage("§6§l=== Loading Stats Asynchronously ===");
+                sender.sendMessage("§7Loading stats from storage...");
+                profileService.loadStats(player).thenAccept(stats -> {
+                    player.sendMessage("§a✓ Stats loaded into cache!");
+                    player.sendMessage("§7Wins: §a" + stats.getWins());
+                    player.sendMessage("§7Kills: §c" + stats.getKills());
+                    player.sendMessage("§7Deaths: §c" + stats.getDeaths());
+                    player.sendMessage("§7Matches: §e" + stats.getMatchesPlayed());
+                });
+                break;
+
+            case "quick":
+                sender.sendMessage("§6§l=== Quick Stats (Convenience Methods) ===");
+                sender.sendMessage("§7These methods use cached data synchronously:");
+                sender.sendMessage("§7getWins(): §a" + profileService.getWins(playerId));
+                sender.sendMessage("§7getKills(): §c" + profileService.getKills(playerId));
+                sender.sendMessage("§7getDeaths(): §c" + profileService.getDeaths(playerId));
+                sender.sendMessage("§7getMatchesPlayed(): §e" + profileService.getMatchesPlayed(playerId));
+                sender.sendMessage("§7getKDRatio(): §e" + String.format("%.2f", profileService.getKDRatio(playerId)));
+                sender.sendMessage("§7getWinRate(): §6" + String.format("%.1f", profileService.getWinRate(playerId)) + "%");
+                sender.sendMessage("");
+                sender.sendMessage("§7Format test:");
+                sender.sendMessage("§7formatSurvivalTime(125): §e" + profileService.formatSurvivalTime(125));
+                sender.sendMessage("§7formatSurvivalTime(3665): §e" + profileService.formatSurvivalTime(3665));
+                break;
+
+            default:
+                sender.sendMessage(
+                    "§cUnknown profile subcommand. Use: stats, cached, async, quick"
+                );
+        }
     }
 
     // ==========================================
@@ -1805,6 +1905,8 @@ public class APITestCommand implements CommandExecutor, TabCompleter {
                     return filterCompletions(DATA_SUBCOMMANDS, args[1]);
                 case "recipe":
                     return filterCompletions(RECIPE_SUBCOMMANDS, args[1]);
+                case "profile":
+                    return filterCompletions(PROFILE_SUBCOMMANDS, args[1]);
             }
         }
 
